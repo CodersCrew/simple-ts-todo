@@ -1,4 +1,4 @@
 import { Todos } from './Todos';
-import { TodosModel } from './TodosModel';
+import { TodosCollection } from "./TodosCollection";
 
 new Todos(new TodosModel());
