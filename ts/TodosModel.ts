@@ -1,45 +1,35 @@
 import { Todo } from "./Todo";
+import { Collection } from "./Collection";
 
-export class TodosModel {
-  private todos: Todo[] = [];
+export class TodosCollection extends Collection<Todo> {
   private currentlyEdited: string | null = null;
-
-  getAllTodos = () => {
-    return this.todos;
-  }
-
-  getTodosCount = () => {
-    return this.todos.length;
-  }
 
   getCurrentlyEditedTodoId = () => {
     return this.currentlyEdited;
   }
 
   getTodoById = (id: string) => {
-    return this.todos.find(todo => todo.id === id);
+    return this.find(todo => todo.id === id);
   }
 
-  createTodo = (title: string) => {
+  addWithTitle = (title: string) => {
     const todo = new Todo(title);
-    this.todos.push(todo);
+
+    this.add(todo);
   }
 
   updateTodoTitle = (id: string, title: string): void => {
-    this.todos = this.todos.map(todo => todo.id === id ? { ...todo, title } : todo);
+    this.update(id, { title });
   }
 
   clearCompleted = () => {
-    this.todos = this.todos.filter(todo => !todo.isDone);
+    this.removeBy(todo => !todo.isDone);
   }
 
   toggleTodoIsDone = (id: string) => {
     const { isDone } = this.getTodoById(id);
-    this.todos = this.todos.map(todo => todo.id === id ? { ...todo, isDone: !isDone } : todo);
-  }
 
-  removeTodo = (id: string) => {
-    this.todos = this.todos.filter(todo => todo.id !== id);
+    this.update(id, { isDone })
   }
 
   setTodoEditMode = (id: string) => {

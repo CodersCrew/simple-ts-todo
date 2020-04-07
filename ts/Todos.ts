@@ -1,4 +1,4 @@
-import { TodosModel } from "./TodosModel";
+import { TodosCollection } from "./TodosModel";
 import { Todo } from "./Todo";
 import { todoTemplate, headerTemplate, footerTemplate } from './templates';
 
