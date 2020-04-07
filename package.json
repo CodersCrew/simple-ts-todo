@@ -1,0 +1,20 @@
+{
+  "name": "ts-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html"
+  },
+  "dependencies": {
+    "bulma": "^0.8.1",
+    "todomvc-app-css": "^2.3.0",
+    "todomvc-common": "^1.0.5",
+    "uuid": "^7.0.3"
+  },
+  "devDependencies": {
+    "@types/uuid": "^7.0.2",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.3",
+    "typescript": "^3.8.3"
+  }
+}
