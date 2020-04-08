@@ -1,42 +1,51 @@
-import { Todo } from "./Todo";
-import { Collection } from "./Collection";
+export class TodosCollection {
+  private currentlyEdited = null;
 
-export class TodosCollection extends Collection<Todo> {
-  private currentlyEdited: string | null = null;
+  /**
+   * Gets the id of the currently editing Todo
+   * @returns id of the currently editing Todo
+   */
+  getCurrentlyEditedTodoId: any = () => {}
 
-  getCurrentlyEditedTodoId = () => {
-    return this.currentlyEdited;
-  }
+  /**
+   * Gets a particular Todo by its id
+   * @param id - id of the Todo
+   * @returns Todo object with the passed id
+   */
+  getTodoById: any = () => {}
 
-  getTodoById = (id: string) => {
-    return this.find(todo => todo.id === id);
-  }
+  /**
+   * Adds new Todo
+   * @param title - title of the Todo
+   */
+  addWithTitle: any = () => {}
 
-  addWithTitle = (title: string) => {
-    const todo = new Todo(title);
+  /**
+   * Updates title of the sepcified Todo
+   * @param id - id of the Todo
+   * @param title - title of the Todo
+   */
+  updateTodoTitle: any = () => {}
 
-    this.add(todo);
-  }
+  /**
+   * Removes all Todos where isDone property is equal to true
+   */
+  clearCompleted: any = () => {}
 
-  updateTodoTitle = (id: string, title: string): void => {
-    this.update(id, { title });
-  }
+  /**
+   * Toogles isDone property for the specified Todo
+   * @param id - id of the Todo
+   */
+  toggleTodoIsDone: any = () => {}
 
-  clearCompleted = () => {
-    this.removeBy(todo => !todo.isDone);
-  }
+  /**
+   * Turns on the edit mode for the particular Todo
+   * @param id - id of the Todo
+   */
+  setTodoEditMode: any = () => {}
 
-  toggleTodoIsDone = (id: string) => {
-    const { isDone } = this.getTodoById(id);
-
-    this.update(id, { isDone })
-  }
-
-  setTodoEditMode = (id: string) => {
-    this.currentlyEdited = id;
-  }
-
-  unsetTodoEditMode = () => {
-    this.currentlyEdited = null;
-  }
+  /**
+   * Turns of the edit mode
+   */
+  unsetTodoEditMode: any = () => {}
 }

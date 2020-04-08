@@ -1,37 +1,49 @@
-export interface WithId {
-  id: string;
-}
+export abstract class Collection {
+  private collection = [];
 
-export abstract class Collection<T extends WithId> {
-  private collection: T[] = [];
+  /**
+   * Gets all elements from the collection
+   * @returns array with all collection elements
+   */
+  findAll = () => {}
 
-  getAll(): T[] {
-    return this.collection;
-  }
+  /**
+   * Gets number of items in the collection
+   * @returns number of items in the collection
+   */
+  length = () => {}
 
-  length(): number {
-    return this.collection.length;
-  }
+  /**
+   * Gets the particular element from the collection by its id.
+   * @param id - id of the element we want to find
+   * @returns a particular element from the collection
+   */
+  findOne = () => {}
 
-  find(cb: (value: T) => boolean): T | undefined {
-    return this.collection.find(cb);
-  }
+  /**
+   * Adds a new element to the collection
+   * @param element - element we want to add
+   */
+  add = () => {}
 
-  add(element: T): void {
-    this.collection.push(element);
-  }
+  /**
+   * Updates a particular element in the collection
+   * @param id - id of the element we want to update
+   * @param change - partial of the element we want to update
+   */
+  update = () => {}
 
-  update(id: string, change: Partial<T>) {
-    this.collection = this.collection.map((element) =>
-      element.id === id ? { ...element, ...change } : element,
-    );
-  }
-
-  remove(id: string): void {
+   /**
+   * Removes a particular element from the collection
+   * @param id - id of the element we want to remove
+   */
+  remove = (id: string) => {
     this.collection = this.collection.filter((element) => element.id !== id);
   }
 
-  removeBy(cb: (value: T) => boolean): void {
-    this.collection = this.collection.filter(cb);
-  }
+   /**
+   * Removes all elements that matches given criteria from the collection
+   * @param cb - callback invoked for every collection item. Returns true for elements that should be deleted
+   */
+  removeBy = () => {}
 }

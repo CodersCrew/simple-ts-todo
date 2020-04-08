@@ -1,27 +1,35 @@
 import { TodosCollection } from "./TodosCollection";
-import { Todo } from "./Todo";
 import { todoTemplate, headerTemplate, footerTemplate } from './templates';
+
+const isEnter = (keycode: number): boolean => {
+  return keycode === 13;
+}
 
 export class TodosRenderer {
   constructor(private todosCollection: TodosCollection) {
     this.render(true);
   }
 
-  $todoList = document.querySelector<HTMLUListElement>('.todo-list');
+  $todoList: any = document.querySelector('.todo-list');
 
-  $main = document.querySelector<HTMLDivElement>('.main');
+  $main: any = document.querySelector('.main');
 
-  $clearCompletedButton = document.querySelector<HTMLUListElement>('.clear-completed');
+  $clearCompletedButton: any = document.querySelector('.clear-completed');
 
-  elementFromTemplate = <T extends HTMLElement>(template: string): T => {
+  /**
+   * Takes the template string and creates an HTML element from it
+   * @param template - string with the HTML template
+   * @returns generated HTML element
+   */
+  elementFromTemplate = (template: any) => {
     const $todoContainer = document.createElement('div');
     $todoContainer.innerHTML = template;
 
-    return $todoContainer.firstChild as T;
+    return $todoContainer.firstChild;
   }
 
   handleTodoInputKeyPress = (e: KeyboardEvent) => {
-    const target = e.target as HTMLInputElement;
+    const target = e.target as any;
 
     if (isEnter(e.keyCode) && target.value) {
       this.createTodo(target.value);
@@ -33,14 +41,16 @@ export class TodosRenderer {
     this.clearCompleted();
   }
 
-  createTodoElement = ({ id, title, isDone }: Todo): HTMLLIElement => {
-    const todoString = todoTemplate.replace('{{id}}', id).replace('{{title}}', title);
-    const $todo = this.elementFromTemplate<HTMLLIElement>(todoString);
+  createTodoElement = () => {
+    const { id, title, isDone } = { id: '1', title: 'Hardcoded Todo', isDone: false };
   
-    const $editInput = $todo.querySelector<HTMLInputElement>('input.edit');
-    const $todoTitle = $todo.querySelector<HTMLInputElement>('.todo-title');
-    const $toggleInput = $todo.querySelector<HTMLInputElement>('input.toggle');
-    const $destroyButton = $todo.querySelector<HTMLInputElement>('.destroy');
+    const todoString = todoTemplate.replace('{{id}}', id).replace('{{title}}', title);
+    const $todo: any = this.elementFromTemplate(todoString);
+  
+    const $editInput: any = $todo.querySelector('input.edit');
+    const $todoTitle: any = $todo.querySelector('.todo-title');
+    const $toggleInput: any = $todo.querySelector('input.toggle');
+    const $destroyButton: any = $todo.querySelector('.destroy');
     
     $todoTitle.addEventListener('dblclick', () => this.setTodoEditMode(id));
     $toggleInput.addEventListener('click', () => this.toggleTodoDoneStatus(id));
@@ -62,7 +72,7 @@ export class TodosRenderer {
 
   createHeaderElement = () => {
     const headerString = headerTemplate;
-    const $header = this.elementFromTemplate<HTMLDivElement>(headerString);
+    const $header: any = this.elementFromTemplate(headerString);
 
     const $input = $header.querySelector('input.new-todo');
 
@@ -72,8 +82,10 @@ export class TodosRenderer {
   };
 
   createFooterElement = () => {
-    const footerString = footerTemplate.replace('{{todosLeft}}', this.todosCollection.length().toString());
-    const $footer = this.elementFromTemplate<HTMLDivElement>(footerString);
+    const todosLeft = '0'; // Replace with a dynamic value.
+
+    const footerString = footerTemplate.replace('{{todosLeft}}', todosLeft);
+    const $footer: any = this.elementFromTemplate(footerString);
 
     const $clearCompletedButton = $footer.querySelector('.clear-completed');
 
@@ -82,48 +94,51 @@ export class TodosRenderer {
     return $footer;
   };
 
-  handleFinishTodoEdition = (todoId: string) => (e: KeyboardEvent) => {
-    if (isEnter(e.keyCode)) {
-      const target = e.target as HTMLInputElement;
-      this.updateTodo(todoId, target.value);
-      this.unsetTodoEditMode();
-    }
-  }
+  /**
+   * Chacks if enter button has been pressed, triggers the Todo updating proccess and unsets the edit mode.
+   */
+  handleFinishTodoEdition = (todoId: string) => (e: KeyboardEvent) => {}
 
-  createTodo = (title: string): void => {
-    this.todosCollection.addWithTitle(title);
-    this.render();
-  }
+  /**
+   * Creates new Todo with a provided title
+   * @param title - title for the Todo
+   */
+  createTodo: any = () => {}
 
-  clearCompleted = (): void => {
-    this.todosCollection.clearCompleted();
-    this.render();
-  }
+  /**
+   * Removes all completed Todos from the DOM
+   */
+  clearCompleted: any = () => {}
 
-  toggleTodoDoneStatus = (id: string): void => {
-    this.todosCollection.toggleTodoIsDone(id);
-    this.render();
-  }
+  /**
+   * Changes the idDone status for the particular Todo
+   * @param id - id of the Todo
+   */
+  toggleTodoDoneStatus: any = () => {}
 
-  setTodoEditMode = (id: string): void => {
-    this.todosCollection.setTodoEditMode(id);
-    this.render();
-  }
+  /**
+   * Enables edit mode for a particular Todo.
+   * @param id - id of the Todo
+   */
+  setTodoEditMode: any = () => {}
 
-  unsetTodoEditMode = (): void => {
-    this.todosCollection.unsetTodoEditMode();
-    this.render();
-  }
+  /**
+   * Disables edit mode for a particular Todo.
+   */
+  unsetTodoEditMode: any = () => {}
 
-  updateTodo = (id: string, title: string): void => {
-    this.todosCollection.updateTodoTitle(id, title);
-    this.render();
-  }
+  /**
+   * Updates title of the specified Todo.
+   * @param id - id of the Todo
+   * @param title - new title for the Todo
+   */
+  updateTodo: any = () => {}
 
-  removeTodo = (id: string): void => {
-    this.todosCollection.remove(id);
-    this.render();
-  }
+  /**
+   * Removes the particular Todo from the DOM
+   * @param id - id of the Todo
+   */
+  removeTodo: any = () => {}
 
   render = (initial = false) => {
     this.$todoList.innerHTML = '';
@@ -137,13 +152,10 @@ export class TodosRenderer {
     this.$main.parentElement.removeChild(this.$main.nextSibling);
     this.$main.after($footer);
   
-    const $todos = this.todosCollection.getAll().map(this.createTodoElement);
+    const todosArr = []; // Replace with a dynamic value.
+    const $todos = todosArr.map(this.createTodoElement);
     for (const $todo of $todos) {
       this.$todoList.appendChild($todo);
     }
   }
-}
-
-function isEnter(keycode: number) {
-  return keycode === 13;
 }
