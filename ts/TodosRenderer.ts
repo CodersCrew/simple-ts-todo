@@ -2,7 +2,7 @@ import { TodosCollection } from "./TodosCollection";
 import { Todo } from "./Todo";
 import { todoTemplate, headerTemplate, footerTemplate } from './templates';
 
-export class Todos {
+export class TodosRenderer {
   constructor(private todosCollection: TodosCollection) {
     this.render(true);
   }
