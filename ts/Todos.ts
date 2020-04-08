@@ -23,7 +23,7 @@ export class Todos {
   handleTodoInputKeyPress = (e: KeyboardEvent) => {
     const target = e.target as HTMLInputElement;
 
-    if (e.keyCode === 13 && target.value) {
+    if (isEnter(e.keyCode) && target.value) {
       this.createTodo(target.value);
       target.value = '';
     }
@@ -83,7 +83,7 @@ export class Todos {
   };
 
   handleFinishTodoEdition = (todoId: string) => (e: KeyboardEvent) => {
-    if (e.keyCode === 13) {
+    if (isEnter(e.keyCode)) {
       const target = e.target as HTMLInputElement;
       this.updateTodo(todoId, target.value);
       this.unsetTodoEditMode();
@@ -144,4 +144,6 @@ export class Todos {
   }
 }
 
-export default Todos;
+function isEnter(keycode: number) {
+  return keycode === 13;
+}
